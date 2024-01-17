@@ -1,0 +1,22 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "Saurish Kar",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "typescript": "^4.4.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.5",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.ts",
+    "dev": "nodemon src/index.ts"
+  }
+}
