@@ -22,10 +22,6 @@ app.get("/api/get_report/:url", (req, res) => {
     res.status(422).send("API KEY missing");
     return;
   }
-  if (!apiKey) {
-    res.status(422).send("API KEY missing");
-    return;
-  }
   const url = `${CHROMEUX_API_ENDPOINT}?key=${apiKey}`;
   return fetch(url, {
     method: "POST",

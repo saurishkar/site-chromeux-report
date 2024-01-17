@@ -28,7 +28,6 @@ export type resultDataType = {
 
 export const parseUXData = (data: metricsData): resultDataType => {
   const { key, metrics, collection_period } = data;
-  debugger;
   const {
     cumulative_layout_shift,
     first_contentful_paint,
