@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.loader {
+  animation: animateColor 3s cubic-bezier(0.23, 1, 0.320, 1) infinite;
+  font-size: 6rem;
+}
+
+@keyframes animateColor {
+  from {
+    color: black;
+  }
+  to {
+    color: lightskyblue;
+  }
+}
