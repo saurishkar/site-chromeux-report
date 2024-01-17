@@ -9,7 +9,7 @@ export const SearchUrl: FC<{ onSubmit: Function }> = ({ onSubmit }) => {
       response.msg = "Search input cannot be empty";
       return response;
     }
-    if (!/^https:\/\/(www\.)?[a-z0-9]+(\.[a-z]+)+$/.test(searchQuery)) {
+    if (!/^https:\/\/(www\.)?[a-z0-9]+(\.[a-z]+)+\/?$/.test(searchQuery)) {
       response.msg = "Url provided is invalid";
       return response;
     }
