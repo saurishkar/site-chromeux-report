@@ -1,6 +1,6 @@
 ## SITE CHROMEUX (CrUX) REPORT
 
-<p>Web application to search the [CrUX](https://developer.chrome.com/docs/crux/bigquery/) data from Google BigQuery API for multiple websites</p>
+Web application to search the [CrUX](https://developer.chrome.com/docs/crux/bigquery/) data from Google BigQuery API for multiple websites
 
 ### Tech Stack
 
