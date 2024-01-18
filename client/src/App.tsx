@@ -45,7 +45,7 @@ function App() {
   }, [isFetching]);
 
   useEffect(() => {
-    if(sortedBy) {
+    if(sortedBy && queryEmails.length) {
       fetchCrUXData(queryEmails, { sortBy: sortedBy });
     }
   }, [sortedBy]);
