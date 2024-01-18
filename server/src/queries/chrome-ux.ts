@@ -15,7 +15,6 @@ export const queryCrUX = async ({
     projectId: process.env.GCP_PROJECT_ID,
   });
   const [fieldName, order] = sortBy.split(":");
-
   // The SQL query to run
   const sqlQuery = `SELECT date, origin, p75_fcp, p75_lcp, p75_cls
                 FROM chrome-ux-report.materialized.metrics_summary
