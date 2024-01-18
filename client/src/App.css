@@ -33,3 +33,6 @@
     transform: rotate(360deg);
   }
 }
+.form-check-label {
+  cursor: pointer;
+}

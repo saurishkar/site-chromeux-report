@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getSiteUXReport } from "../constants/api";
+import { filtersType, getSiteUXReport } from "../constants/api";
 
 export const getCrUXApi = ({
   urls,
@@ -11,7 +11,7 @@ export const getCrUXApi = ({
   return axios.get(getSiteUXReport, {
     params: {
       urls,
-      sortBy
+      sortBy,
     },
   });
 };

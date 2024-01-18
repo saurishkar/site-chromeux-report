@@ -33,6 +33,7 @@ Web application to search the [CrUX](https://developer.chrome.com/docs/crux/bigq
 
 #### Part 2
 - Sorting on data fields and you can set the sorting by clicking/toggling on any data fields
+- Filter data by enabling/disabling certain metrics from the table to view only particular data
 
 #### Part 3
 - Support CrUX data for multiple urls searching

@@ -1,14 +1,19 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { UXReport } from "./components/UXReport";
 import { SearchUrl } from "./components/SearchUrl";
 import { Loader } from "./components/Loader";
+import { DataFilters } from "./components/Filters";
 
 import { resultDataType } from "./utils/dataParser";
 
 import { getCrUXApi } from "./utils/api";
 
-import { FORM_FIELDS_MAPPING } from "./constants/api";
+import {
+  DEFAULT_FILTERS,
+  FORM_FIELDS_MAPPING,
+  filtersType,
+} from "./constants/api";
 
 import { useSortBy } from "./hooks/useSortBy";
 
@@ -22,6 +27,8 @@ function App() {
   const [apiError, setApiError]: [string, Function] = useState("");
   const [sortedBy, setSortedBy] = useSortBy(date);
   const [queryEmails, setQueryEmails]: [string[], Function] = useState([]);
+  const [filters, setFilters]: [filtersType, Function] =
+    useState(DEFAULT_FILTERS);
 
   const fetchCrUXData = (
     urls: string[],
@@ -38,6 +45,12 @@ function App() {
       .finally(() => setIsFetching(false));
   };
 
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilters((currState: filtersType) => {
+      return { ...currState, [e.target.name]: e.target.checked };
+    });
+  };
+
   useEffect(() => {
     if (isFetching && apiError) {
       setApiError();
@@ -45,9 +58,10 @@ function App() {
   }, [isFetching]);
 
   useEffect(() => {
-    if(sortedBy && queryEmails.length) {
+    if (sortedBy && queryEmails.length) {
       fetchCrUXData(queryEmails, { sortBy: sortedBy });
     }
+    return () => setQueryEmails([]);
   }, [sortedBy]);
 
   return (
@@ -60,6 +74,7 @@ function App() {
         <SearchUrl onSubmit={fetchCrUXData} />
         {apiError && <p className="text-danger">{apiError}</p>}
       </div>
+      <DataFilters onFilterChange={handleFilterChange} filters={filters} />
       <div
         className="mx-auto text-center mt-5 table-responsive"
         style={{ maxHeight: "345px" }}
@@ -69,6 +84,7 @@ function App() {
             data={uxData}
             onClickHeading={setSortedBy}
             sortedBy={sortedBy}
+            filters={filters}
           />
         </Loader>
       </div>

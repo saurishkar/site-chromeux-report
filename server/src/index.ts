@@ -20,6 +20,7 @@ app.get("/api/get_report", async (req, res) => {
   const { urls } = req.query;
   const origins = urls as string[];
   const sortBy = req.query.sortBy as string;
+
   if (!origins.length) {
     res.status(422).send({ error: "No urls present" });
     return;
