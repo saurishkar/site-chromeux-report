@@ -36,7 +36,9 @@ export const SearchUrl: FC<{ onSubmit: Function }> = ({ onSubmit }) => {
       setError(msg);
       return;
     }
-    onSubmit(emails);
+    onSubmit(emails, {
+      cb: () => setSearchQuery("")
+    });
   };
   const handleSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);

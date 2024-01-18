@@ -17,12 +17,14 @@ app.get("/status", (req, res) => {
 });
 
 app.get("/api/get_report", async (req, res) => {
-  const origins = req.query.urls as string[];
+  const { urls } = req.query;
+  const origins = urls as string[];
+  const sortBy = req.query.sortBy as string;
   if (!origins.length) {
     res.status(422).send({ error: "No urls present" });
     return;
   }
-  const data = await queryCrUX({ urls: origins });
+  const data = await queryCrUX({ urls: origins, sortBy });
   res.status(200).send({ data: data[0] });
 });
 
