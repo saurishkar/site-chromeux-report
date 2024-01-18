@@ -1,31 +1,42 @@
 import { FC, FormEvent, useEffect, useState } from "react";
+import { getValidAndInvalidEmails } from "../utils/dataParser";
 
 export const SearchUrl: FC<{ onSubmit: Function }> = ({ onSubmit }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState("");
+
   const validateSearchQuery = () => {
-    let response = { error: true, msg: "" };
+    let response = { error: true, msg: "", emails: [] };
     if (searchQuery.length === 0) {
       response.msg = "Search input cannot be empty";
       return response;
     }
-    if (!/^https:\/\/(www\.)?[a-z0-9]+(\.[a-z]+)+\/?$/.test(searchQuery)) {
-      response.msg = "Url provided is invalid";
+
+    const { valid, invalid } = getValidAndInvalidEmails(searchQuery);
+    if (valid.length > 10) {
+      response.msg = "Only 10 unique emails allowed";
+      return response;
+    }
+    if (invalid.length) {
+      response.msg = `Some emails in the query are invalid: ${invalid.join(
+        ", "
+      )}`;
       return response;
     }
     return {
       error: false,
       msg: "",
+      emails: valid,
     };
   };
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const { error, msg } = validateSearchQuery();
+    const { error, msg, emails } = validateSearchQuery();
     if (error) {
       setError(msg);
       return;
     }
-    onSubmit(searchQuery);
+    onSubmit(emails);
   };
   const handleSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -38,14 +49,15 @@ export const SearchUrl: FC<{ onSubmit: Function }> = ({ onSubmit }) => {
   }, [searchQuery]);
 
   return (
-    <div className="container search-form w-75">
+    <div className="container search-form text-start">
       <form onSubmit={onFormSubmit}>
         <div className="input-group mb-3">
           <input
             type="text"
+            id="searchInput"
             className="form-control"
-            placeholder="https://www.example.com/"
-            aria-label="Website url"
+            placeholder="https://www.example.com,https://www.google.com"
+            aria-label="Add comma separated urls to search CrUX data"
             aria-describedby="button-search"
             onChange={handleSearchQueryChange}
             value={searchQuery}

@@ -1,7 +1,8 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
-import { CHROMEUX_API_ENDPOINT } from "./constants/api";
 import cors from "cors";
+
+import { queryCrUX } from "./queries/chrome-ux";
 
 dotenv.config();
 
@@ -9,29 +10,20 @@ const app: Express = express();
 const port = process.env.PORT || 4000;
 
 app.use(cors());
-app.disable('x-powered-by');
+app.disable("x-powered-by");
 
 app.get("/status", (req, res) => {
   res.send("Looking good!");
 });
 
-app.get("/api/get_report/:url", (req, res) => {
-  const apiKey = process.env.CHROMEUX_API_KEY;
-  const origin = req.params.url;
-  if (!apiKey) {
-    res.status(422).send("API KEY missing");
+app.get("/api/get_report", async (req, res) => {
+  const origins = req.query.urls as string[];
+  if (!origins.length) {
+    res.status(422).send({ error: "No urls present" });
     return;
   }
-  const url = `${CHROMEUX_API_ENDPOINT}?key=${apiKey}`;
-  return fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      origin: decodeURIComponent(origin),
-    }),
-  })
-    .then((response) => response.json())
-    .then((response) => res.send(response.record))
-    .catch((err) => res.status(422).send(err));
+  const data = await queryCrUX({ urls: origins });
+  res.status(200).send({ data: data[0] });
 });
 
 app.listen(port, () => {

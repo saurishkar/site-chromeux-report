@@ -4,24 +4,21 @@ import { UXReport } from "./components/UXReport";
 import { SearchUrl } from "./components/SearchUrl";
 import { Loader } from "./components/Loader";
 
-import { getSiteUXReport } from "./constants/api";
+import { resultDataType } from "./utils/dataParser";
 
-import { parseUXData, resultDataType } from "./utils/dataParser";
+import { getCrUXApi } from "./utils/api";
 
 import "./App.css";
 
 function App() {
-  const [uxData, setUXData]: [resultDataType, Function] = useState(
-    {} as resultDataType
-  );
+  const [uxData, setUXData]: [resultDataType[], Function] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [apiError, setApiError]: [string, Function] = useState("");
 
-  const onSubmit = (url: string) => {
+  const onSubmit = (urls: string[]) => {
     setIsFetching(true);
-    fetch(getSiteUXReport.replace(":url", encodeURIComponent(url)))
-      .then((response) => response.json())
-      .then((response) => setUXData(parseUXData(response)))
+    return getCrUXApi({ urls })
+      .then((response) => setUXData(response.data.data))
       .catch((err: Error) => setApiError(err.message))
       .finally(() => setIsFetching(false));
   };
@@ -42,7 +39,10 @@ function App() {
         <SearchUrl onSubmit={onSubmit} />
         {apiError && <p className="text-danger">{apiError}</p>}
       </div>
-      <div className="mx-auto text-center mt-5">
+      <div
+        className="mx-auto text-center mt-5 table-responsive"
+        style={{ maxHeight: "345px" }}
+      >
         <Loader loading={isFetching} className="">
           <UXReport data={uxData} />
         </Loader>

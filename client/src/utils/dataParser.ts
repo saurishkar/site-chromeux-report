@@ -1,46 +1,30 @@
-type percentiles = {
-  percentiles: {
-    p75: string | number;
-  };
-};
-
-type metricsData = {
-  key: {
-    origin: string;
-  };
-  metrics: {
-    cumulative_layout_shift: percentiles;
-    first_contentful_paint: percentiles;
-    first_input_delay: percentiles;
-    largest_contentful_paint: percentiles;
-  };
-  collection_period: object;
-};
-
 export type resultDataType = {
   origin: string;
-  cls: string | number;
-  fcp: string | number;
-  fid: string | number;
-  lcp: string | number;
-  period: object;
+  p75_cls: string | number;
+  p75_fcp: string | number;
+  p75_fid: string | number;
+  p75_lcp: string | number;
+  date: { value: string };
 };
 
-export const parseUXData = (data: metricsData): resultDataType => {
-  const { key, metrics, collection_period } = data;
-  const {
-    cumulative_layout_shift,
-    first_contentful_paint,
-    first_input_delay,
-    largest_contentful_paint,
-  } = metrics;
+const VALID_EMAIL_REGEX = new RegExp(
+  /^https:\/\/(www\.)?[a-z0-9]+(\.[a-z]+)+\/?$/i
+);
 
+export const getValidAndInvalidEmails = (str: string) => {
+  const { valid, invalid } = str.split(",").reduce(
+    (result, str) => {
+      if (VALID_EMAIL_REGEX.test(str)) {
+        result.valid.add(str);
+      } else {
+        result.invalid.add(str);
+      }
+      return result;
+    },
+    { valid: new Set(), invalid: new Set() }
+  );
   return {
-    origin: key.origin,
-    cls: cumulative_layout_shift.percentiles.p75,
-    fcp: first_contentful_paint.percentiles.p75,
-    fid: first_input_delay.percentiles.p75,
-    lcp: largest_contentful_paint.percentiles.p75,
-    period: collection_period,
+    valid: Array.from(valid),
+    invalid: Array.from(invalid),
   };
 };
