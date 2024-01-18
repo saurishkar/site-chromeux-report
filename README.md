@@ -24,3 +24,15 @@ Web application to search the [CrUX](https://developer.chrome.com/docs/crux/bigq
 - Download `service account credentials` from gcp and save it under `server/big-query.json`. [Refer here for more](https://codelabs.developers.google.com/codelabs/cloud-bigquery-nodejs/index.html?index=..%2F..index#0)
 - run `cd client && yarn install && yarn start && cd ..` to run client on `http://localhost:3000`
 - run `cd server && yarn install && yarn start && cd ..` to run server on `http://localhost:4000`
+
+### Functionalities
+
+#### Part 1
+- Search CrUX data for a url
+- Tabular data of the result
+
+#### Part 2
+- Sorting on data fields and you can set the sorting by clicking/toggling on any data fields
+
+#### Part 3
+- Support CrUX data for multiple urls searching
