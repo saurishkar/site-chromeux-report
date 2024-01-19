@@ -37,3 +37,8 @@ Web application to search the [CrUX](https://developer.chrome.com/docs/crux/bigq
 
 #### Part 3
 - Support CrUX data for multiple urls searching
+
+### Screenshots
+<img width="1383" alt="Screenshot 2024-01-19 at 11 10 40 AM" src="https://github.com/saurishkar/site-chromeux-report/assets/19742306/03ebe090-3356-43b2-8a12-57f7acceeb9c">
+<img width="1411" alt="Screenshot 2024-01-19 at 11 10 26 AM" src="https://github.com/saurishkar/site-chromeux-report/assets/19742306/85dd46a0-305b-45db-be6d-208e879db666">
+
